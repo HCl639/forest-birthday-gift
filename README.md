@@ -13,6 +13,8 @@
 
 ## 2. 影片路徑與畫質
 
+線上版使用 assets/birthday-web.mp4，保留 1820 × 1024、30 fps 和原音訊，以 H.264 CRF 24 與 faststart 將影片約 9.9 MB 降至 3.6 MB。圖片改用 WebP，四張使用中的圖片約 7.8 MB 降至 0.91 MB。首頁優先載入森林背景；初次進入關卡時才預載影片，已有進度的回訪者則在首頁 load 後準備影片。原始 PNG 和高品質增強版 MP4 保留在本機，執行 python tools/optimize-web.py 可重建線上素材。
+
 頁面目前播放 assets/birthday-enhanced.mp4，1820 × 1024、30 fps、10 秒；原音訊完整保留。這是原始 910 × 512 影片的輕度去噪、Lanczos 高品質放大、柔和銳化及低壓縮輸出，改善滿版播放觀感；不是 AI 超解析度，也不會還原原片不存在的細節。
 
 assets/birthday.mp4 與 assets/birthday-original.mp4 均保留原始影片。增強版的第一幀為 assets/door-frame-enhanced.png，與目前影片第一個解碼影格逐像素一致。

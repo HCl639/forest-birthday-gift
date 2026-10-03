@@ -1,6 +1,6 @@
 /* 與影片對齊的自然材質、景深與暖光。保留純前端、離線可用。 */
 .cinematic-forest .world{background:#293b2b}
-.cinematic-forest .world:before{content:"";position:absolute;inset:0;background:url('assets/forest-cinematic.png') center/cover no-repeat;transition:filter 3s,transform 10s;filter:brightness(.88) saturate(.86)}
+.cinematic-forest .world:before{content:"";position:absolute;inset:0;background:url('assets/forest-cinematic.webp') center/cover no-repeat;transition:filter 3s,transform 10s;filter:brightness(.88) saturate(.86)}
 .cinematic-forest .world:after{content:"";position:absolute;inset:0;background:linear-gradient(#17261c66,transparent 48%,#14261777),radial-gradient(ellipse at 50% 25%,#fcf0c64d,transparent 55%);transition:background 3s,opacity 3s;pointer-events:none}
 .cinematic-forest #forest,.cinematic-forest .sky,.cinematic-forest .sun-glow{display:none}
 .cinematic-forest .night-sky{z-index:1;background:linear-gradient(#0a1a36bb,#16364c66)}
@@ -37,7 +37,7 @@
 .cinematic-forest .dialog-top,.cinematic-forest #level-instruction{color:#cfcdb0}
 .cinematic-forest dialog h2{color:#ffedc1;text-shadow:0 2px 3px #0b1a14}
 #level-scene.detailed-scene{background:#243e2c;isolation:isolate;min-height:320px;border:1px solid #d0c58744;box-shadow:inset 0 0 70px #13231999}
-.detailed-scene:before{content:"";position:absolute;inset:0;background:url('assets/forest-cinematic.png') center/cover;z-index:-2;filter:brightness(.64) saturate(.82)}
+.detailed-scene:before{content:"";position:absolute;inset:0;background:url('assets/forest-cinematic.webp') center/cover;z-index:-2;filter:brightness(.64) saturate(.82)}
 .detailed-scene:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#102b2222,#18301c11 35%,#1b311966)}
 .scene-haze{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 16%,#ffdf8a33,transparent 60%);pointer-events:none}
 .detailed-prop{width:16%;min-width:44px;filter:drop-shadow(5px 10px 4px #0f241b77);transition:filter .3s,transform .3s}
@@ -68,7 +68,7 @@
 .resonance-fill{display:block;width:0;height:100%;background:#e8c782;box-shadow:0 0 7px #ffe8af;transition:width .1s}
 .view-guide{opacity:.28}
 .depth-branches{fill:none}
-.prop-sprite{display:block;position:absolute;inset:0;background-image:url('assets/woodland-props.png');background-size:300% 200%;background-repeat:no-repeat;pointer-events:none}
+.prop-sprite{display:block;position:absolute;inset:0;background-image:url('assets/woodland-props.webp');background-size:300% 200%;background-repeat:no-repeat;pointer-events:none}
 .crate-body{clip-path:polygon(0 34%,100% 34%,100% 100%,0 100%)}
 .crate-top{clip-path:polygon(0 0,100% 0,100% 35%,0 35%);transform-origin:20% 34%}
 .react .crate-top{animation:lid-open 1.2s ease}

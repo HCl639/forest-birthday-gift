@@ -30,7 +30,7 @@ function propArt(key) {
   return detailedSVG(`<g filter="url(#propShadow)">${drawing}</g>`);
 }
 // 維尼肖像直接使用使用者影片的既有截圖，以 CSS 排版，未重新生成或修改影像。
-$('#bear').innerHTML='<span class="pooh-portrait"><img src="assets/video-reference.png" alt="生日影片裡穿紅色上衣的小熊維尼" width="910" height="512"></span><span class="pooh-name">Winnie the Pooh</span>';
+$('#bear').innerHTML='<span class="pooh-portrait"><img src="assets/video-reference.webp" alt="生日影片裡穿紅色上衣的小熊維尼" width="910" height="512"></span><span class="pooh-name">Winnie the Pooh</span>';
 ['honey','leaf','sun','stars'].forEach((key,i)=>$(`#art-${i}`).innerHTML=propArt(key));
 function ambience() {
   return `<div class="scene-haze"></div><div class="scene-dust">${Array.from({length:18},(_,i)=>`<i style="--x:${(i*37+8)%97}%;--y:${(i*23+12)%85}%;--delay:${-i*.8}s"></i>`).join('')}</div>`;

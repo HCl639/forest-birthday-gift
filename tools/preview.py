@@ -6,14 +6,14 @@ import re
 
 root=Path(__file__).resolve().parent.parent
 allowed={'index.html','style.css','cinematic.css','script.js','geometry.js','enhanced-levels.js'}
-allowed.update(str(p.relative_to(root)).replace('\\','/') for p in (root/'assets').glob('*') if p.suffix in {'.mp4','.png','.jpg'})
+allowed.update(str(p.relative_to(root)).replace('\\','/') for p in (root/'assets').glob('*') if p.suffix in {'.mp4','.png','.jpg','.webp'})
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,directory=str(root),**kwargs)
     def do_GET(self):
         name=unquote(urlsplit(self.path).path).lstrip('/') or 'index.html'
         asset=(root/name).resolve()
-        is_asset=asset.parent==(root/'assets').resolve() and asset.suffix in {'.mp4','.png','.jpg'} and asset.is_file()
+        is_asset=asset.parent==(root/'assets').resolve() and asset.suffix in {'.mp4','.png','.jpg','.webp'} and asset.is_file()
         if name not in allowed and not is_asset:
             self.send_error(404)
             return

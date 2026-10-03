@@ -6,6 +6,13 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const video = $('#birthday-video');
+let videoWarmed = false;
+function prepareVideo() {
+  if(videoWarmed)return;
+  videoWarmed = true;
+  video.preload = 'auto';
+  video.load();
+}
 const dialog = $('#level-dialog');
 const scene = $('#level-scene');
 const storageKey = 'wishing-woods-progress-v1';
@@ -60,7 +67,7 @@ function renderProgress(celebrate = false) {
   $('#door').disabled = count !== 4 || !gameState.mediaReady;
   $('#door').setAttribute('aria-label', count === 4 ? '點一下，播放生日動畫' : `神秘木門，已收集 ${count} 塊拼圖`);
   $('#frame-message').textContent = count === 4 ? '門已經完整了。' : count === 0 ? '每一塊拼圖，都藏著一點小小的魔法。' : ['','找到第一塊了。午後的風，帶來新的線索。','兩塊拼圖了。跟著夕陽，繼續往前。','只差最後一塊了。抬頭看看星空。'][count];
-  if (count === 4) setTimeout(() => { if (!gameState.playing && gameState.levels.every(Boolean)) $('#frame-message').textContent = gameState.mediaReady ? '點一下，看看門後有什麼。' : '選擇生日影片，讓最後的秘密開始。'; }, celebrate ? 1800 : 700);
+  if (count === 4) setTimeout(() => { if (!gameState.playing && gameState.levels.every(Boolean)) $('#frame-message').textContent = gameState.mediaReady ? '點一下，看看門後有什麼。' : '影片正在準備，秘密就快開始了。'; }, celebrate ? 1800 : 700);
 }
 function stopLevel() { activeController?.abort(); activeController = null; clearTimeout(alignmentTimer); alignmentTimer = null; }
 function closeLevel() { if (gameState.rewarding) return; stopLevel(); dialog.close(); gameState.active = null; }
@@ -69,6 +76,7 @@ dialog.addEventListener('cancel',event => { event.preventDefault(); closeLevel()
 dialog.addEventListener('click',event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) closeLevel(); } });
 function openLevel(index) {
   if (gameState.rewarding || gameState.playing || gameState.levels[index] || (index && !gameState.levels[index-1])) return;
+  prepareVideo();
   stopLevel(); activeController = new AbortController(); gameState.active = index;
   $('#level-title').textContent = levels[index].title; $('#level-eyebrow').textContent = levels[index].eyebrow; $('#level-instruction').textContent = levels[index].instruction;
   $('#level-feedback').textContent = ''; scene.innerHTML = ''; scene.className = ''; dialog.showModal();
@@ -109,17 +117,21 @@ function installPerspectiveControl(target, update) {
 }
 // 共用像素比例。影片與拼圖永远使用同一個容器，沒有放大裁切差異。
 function setDoorImage(url) { document.documentElement.style.setProperty('--door-image',`url("${url}")`); }
-setDoorImage('assets/door-frame-enhanced.png');
+setDoorImage('assets/door-frame-enhanced.webp');
 function mediaNotice(message) {
   const notice = $('#media-notice'); notice.replaceChildren(document.createTextNode(message));
   const pick = document.createElement('button'); pick.textContent = '選擇影片'; pick.addEventListener('click',() => $('#video-file').click()); notice.append(pick); notice.hidden = false;
 }
 video.addEventListener('loadeddata',() => { gameState.mediaReady = true; $('#media-notice').hidden = true; renderProgress(); });
-video.addEventListener('loadedmetadata',() => { if(video.videoWidth && video.videoHeight) $('#door').style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`; });
-video.addEventListener('error',() => { gameState.mediaReady = false; if (gameState.playing) recoverPlayback(); renderProgress(); mediaNotice('生日影片尚未載入。請確認 assets/birthday-enhanced.mp4，或選擇本機影片。'); });
+video.addEventListener('loadedmetadata',() => {
+  if(video.videoWidth && video.videoHeight) $('#door').style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`;
+  gameState.mediaReady = true; renderProgress();
+});
+video.addEventListener('error',() => { gameState.mediaReady = false; if (gameState.playing) recoverPlayback(); renderProgress(); mediaNotice('生日影片尚未載入。請確認 assets/birthday-web.mp4，或選擇本機影片。'); });
 $('#choose-video').addEventListener('click',() => $('#video-file').click());
 $('#video-file').addEventListener('change',async event => {
   const file = event.target.files[0]; if(!file || gameState.playing) return;
+  videoWarmed = true; video.preload = 'auto';
   const generation = ++mediaGeneration;
   gameState.mediaReady = false; $('#door').disabled = true;
   if(fileURL) URL.revokeObjectURL(fileURL); fileURL = URL.createObjectURL(file);
@@ -173,6 +185,10 @@ $('#reset').addEventListener('click',() => {
   closeLevel(); gameState.levels.fill(false); save(); renderProgress(); toast('新的森林旅程，從第一片葉子開始。');
 });
 renderProgress();
+// 回訪已有進度時，等首頁完成載入才準備影片，不和首屏圖片搶頻寬。
+window.addEventListener('load',() => {
+  if(gameState.levels.some(Boolean))setTimeout(prepareVideo,1000);
+},{once:true});
 
 // 畫框依主場景剩餘高度排版，文字和關卡入口保持正常字級，整頁不需捲動。
 function fitForestLayout() {

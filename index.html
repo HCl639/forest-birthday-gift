@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5efcf">
   <title>森林裡的生日秘密 · A Little Forest Wish</title>
+  <link rel="preload" href="assets/forest-cinematic.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="cinematic.css">
+  <link rel="stylesheet" href="cinematic.css?v=2">
   <script src="geometry.js" defer></script>
-  <script src="script.js" defer></script>
-  <script src="enhanced-levels.js" defer></script>
+  <script src="script.js?v=2" defer></script>
+  <script src="enhanced-levels.js?v=2" defer></script>
 </head>
 <body data-time="0" class="cinematic-forest">
   <div class="world" aria-hidden="true"><div class="sky"></div><div class="sun-glow"></div><div class="night-sky"></div><svg id="forest" viewBox="0 0 1440 940" preserveAspectRatio="xMidYMax slice"></svg><div class="paper-grain"></div></div>
@@ -20,7 +21,7 @@
   <main>
     <section class="introduction interface"><div class="eyebrow"><span></span> A LITTLE FOREST WISH <span></span></div><h1>森林裡的<span>生日秘密</span></h1><p>森林裡藏著四塊拼圖。<br>找到它們，就能打開最後的秘密。</p></section>
     <section class="clearing" aria-label="神秘木門拼圖">
-      <div class="frame-wrap"><span class="frame-leaves" aria-hidden="true">❧</span><div class="wood-frame" id="wood-frame"><button class="door" id="door" aria-label="神秘木門，收集四塊拼圖後開啟" disabled><div id="puzzle" class="puzzle"><div class="piece" data-piece="0"><span>✧</span></div><div class="piece" data-piece="1"><span>✧</span></div><div class="piece" data-piece="2"><span>✧</span></div><div class="piece" data-piece="3"><span>✧</span></div></div><video id="birthday-video" playsinline preload="auto" src="assets/birthday-enhanced.mp4" poster="assets/door-frame-enhanced.png"></video><canvas id="last-frame" aria-hidden="true"></canvas><span class="door-action">輕觸木門，讓故事開始 ✧</span></button></div><div class="frame-foot"></div><p id="frame-message" class="frame-message interface" aria-live="polite">每一塊拼圖，都藏著一點小小的魔法。</p></div>
+      <div class="frame-wrap"><span class="frame-leaves" aria-hidden="true">❧</span><div class="wood-frame" id="wood-frame"><button class="door" id="door" aria-label="神秘木門，收集四塊拼圖後開啟" disabled><div id="puzzle" class="puzzle"><div class="piece" data-piece="0"><span>✧</span></div><div class="piece" data-piece="1"><span>✧</span></div><div class="piece" data-piece="2"><span>✧</span></div><div class="piece" data-piece="3"><span>✧</span></div></div><video id="birthday-video" playsinline preload="none" src="assets/birthday-web.mp4" poster="assets/door-frame-enhanced.webp"></video><canvas id="last-frame" aria-hidden="true"></canvas><span class="door-action">輕觸木門，讓故事開始 ✧</span></button></div><div class="frame-foot"></div><p id="frame-message" class="frame-message interface" aria-live="polite">每一塊拼圖，都藏著一點小小的魔法。</p></div>
       <div class="forest-friend interface" id="bear"></div><span class="friend-note interface">維尼陪你，一起慢慢找。</span>
     </section>
     <nav class="trail interface" aria-label="四個森林關卡"><div class="trail-caption"><span class="dotted-line"></span> 沿著小徑，尋找四份魔法 <span class="dotted-line"></span></div><div class="level-list">
