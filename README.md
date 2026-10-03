@@ -13,7 +13,7 @@
 
 ## 2. 影片路徑與畫質
 
-線上版使用 assets/birthday-web.mp4，保留 1820 × 1024、30 fps 和原音訊，以 H.264 CRF 24 與 faststart 將影片約 9.9 MB 降至 3.6 MB。圖片改用 WebP，四張使用中的圖片約 7.8 MB 降至 0.91 MB。首頁優先載入森林背景；初次進入關卡時才預載影片，已有進度的回訪者則在首頁 load 後準備影片。原始 PNG 和高品質增強版 MP4 保留在本機，執行 python tools/optimize-web.py 可重建線上素材。
+線上版使用 assets/birthday-web.mp4，保留 1820 × 1024、30 fps 和原音訊，以 H.264 CRF 24 與 faststart 將影片約 9.9 MB 降至 3.6 MB。圖片改用 WebP，四張使用中的圖片約 7.8 MB 降至 0.91 MB。首頁優先載入森林背景；進入第二關時才預載影片，已有進度的回訪者則在首頁 load 後準備影片。原始 PNG 和高品質增強版 MP4 保留在本機，執行 python tools/optimize-web.py 可重建線上素材。
 
 頁面目前播放 assets/birthday-enhanced.mp4，1820 × 1024、30 fps、10 秒；原音訊完整保留。這是原始 910 × 512 影片的輕度去噪、Lanczos 高品質放大、柔和銳化及低壓縮輸出，改善滿版播放觀感；不是 AI 超解析度，也不會還原原片不存在的細節。
 
@@ -53,8 +53,8 @@ capture.release()
 
 進度由 script.js 的 gameState.levels 管理；依序解鎖並在允許時以 localStorage 記憶。頁尾「重新探索」可重新開始。
 
-- 森林尋物：enhanced-levels.js 的 setupSearch()。六個素材來自 woodland-props.png 的 3 × 2 透明圖集，CSS 直接取用，不須切成六個檔案。探索木箱會開蓋並冒出橡果，蜂蜜罐有蜜蜂，植物與石頭提供線索。樹洞藏著拼圖，覆蓋的葉子移開後出現微光。修改 objects 調整物件位置，atlas 對應圖集位置。
-- 視角對齊：setupParallax() 與 geometry.js 的 cameraPolygons()。四片木雕置於不同深度，依同一透視相機的水平位置投影；正確視角下成為一個拼圖輪廓。判定根據頂點重合誤差，非任意分數。容錯內停留後，視角微調至精確角度，再完整重算所有投影。
+- 森林尋物：enhanced-levels.js 的 setupSearch()。六個素材來自 woodland-props-small.webp 的 3 × 2 透明圖集（720 × 480、約 159 KB），首頁預載並解碼。載入未完成或失敗時直接使用內建 SVG 道具；解碼完成才切換圖集，避免局部空白。第一關不會同時下載影片。探索木箱會開蓋並冒出橡果，蜂蜜罐有蜜蜂，植物與石頭提供線索。樹洞藏著拼圖，覆蓋的葉子移開後出現微光。修改 objects 調整物件位置，atlas 對應圖集位置。
+- 轉動心願：setupParallax() 與 geometry.js 的 heartPolygons()。三片心形木雕置於不同深度，同時繞垂直軸旋轉，再做透視投影；在正確角度拼成完整愛心。金色圓環、虛線愛心和共鳴條提供方向與完成回饋。滑鼠拖曳、觸控與鍵盤刻度皆可操作。正確位置根據投影頂點 RMS 誤差判定，完成後停留展示完整愛心再送回拼圖。
 - 黃昏光影：setupShadows() 與 geometry.js。四個有相同真實輪廓的木雕懸於不同高度，固定不動。以同一平行日光方向計算每個頂點與地面 Y=0 的交點：shadow.x = source.x - height × light.x；shadow.z = source.z - height × light.z。物件越高，影子隨光向移動越多。地面的淡色刻痕是目標輪廓，虛線連接物件頂點與實際投影點。四片輪廓透過反向投影安排固定位置，目標夕陽刻度為 36。判定使用地面頂點 RMS 距離；不是四張無關影子用 CSS 搬動。容錯成立後微調實際日光，再完整求交，不會直接搬影子。
 - 星空連線：setupStars()。α → β → γ → σ → α 為天秤座主要星示意輪廓，並非精確天球座標圖。錯誤線淡出但保留已完成的星光。微亮下一顆星、逐步顯示星名，完成後出現 Libra 與祝福。可修改 stars 與 order。
 

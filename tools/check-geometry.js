@@ -23,4 +23,13 @@ camera.forEach((poly,i)=>poly.forEach((p,j)=>{
  assert.ok(Math.abs(p.x-400-g.fragments[i][j].x)<1e-10);
  assert.ok(Math.abs(p.y-210-g.fragments[i][j].z)<1e-10);
 }));
-console.log('PASS: 平行光投影、地面求交、高度視差、完整拼合、相機視差。');
+assert.ok(Math.abs(g.heartSlices.reduce((sum,poly)=>sum+area(poly),0)-area(g.heart))<1e-8,'三片應完整分割同一顆心，不能有缺口或重疊面積');
+g.heartPolygons(50).forEach((poly,i)=>poly.forEach((p,j)=>{
+ assert.ok(Math.abs(p.x-400-g.heartSlices[i][j].x)<1e-10);
+ assert.ok(Math.abs(p.y-212-g.heartSlices[i][j].z)<1e-10);
+}));
+for(const value of [0,16,50,84,100])g.heartPolygons(value).flat().forEach(p=>{
+ assert.ok(Number.isFinite(p.x)&&Number.isFinite(p.y),'旋轉範圍內投影應有限');
+ assert.ok(p.x>100&&p.x<700&&p.y>25&&p.y<370,'心形木雕應保持在裝置可見範圍內');
+});
+console.log('PASS: 日光投影、完整拼合、相機視差、心形分割與旋轉透視。');

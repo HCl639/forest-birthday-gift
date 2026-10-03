@@ -49,6 +49,10 @@ function geometryFeedback(error,index,settle) {
   if(near) alignmentTimer=setTimeout(()=>{settle?.();$('.resonance-fill',scene).style.width='100%';$('.resonance',scene).setAttribute('aria-label','輪廓接近程度 100%');award(index);},1000);
 }
 function resonance() {return '<div class="resonance"><span>輪廓的共鳴</span><div><i class="resonance-fill"></i></div></div>';}
+// 預先解碼圖集；網路尚未完成時，六件道具先以內建向量插畫顯示。
+const searchAtlas = new Image();
+searchAtlas.src = 'assets/woodland-props-small.webp';
+const searchAtlasReady = searchAtlas.decode().then(()=>true).catch(()=>false);
 function setupSearch() {
   scene.className='detailed-scene search-scene';
   scene.innerHTML=ambience()+'<div class="exploration-note">葉間的足跡 <span>0 / 6</span></div><div class="search-clue">維尼說：有一處陰涼的地方，傳來小小的金色微光。</div>';
@@ -57,7 +61,7 @@ function setupSearch() {
   const atlas={bush:'0% 0%',rock:'50% 0%',hollow:'100% 0%',honey:'0% 100%',crate:'50% 100%',flower:'100% 100%'};
   objects.forEach(([key,label,x,y])=>{
     const object=document.createElement('button');object.className=`hidden-object detailed-prop sprite-prop prop-${key}`;object.style.left=`${x}%`;object.style.top=`${y}%`;object.setAttribute('aria-label',`探索${label}`);
-    object.innerHTML=`<span class="prop-sprite ${key==='crate'?'crate-body':''}" style="background-position:${atlas[key]}"></span>${key==='crate'?'<span class="prop-sprite crate-top" style="background-position:50% 100%"></span>':''}${key==='hollow'?`<span class="sprite-secret">✧</span><span class="hollow-vines">${propArt('leaf')}</span>`:''}`;
+    object.innerHTML=`<span class="prop-fallback">${propArt(key)}</span><span class="prop-sprite ${key==='crate'?'crate-body':''}" style="background-position:${atlas[key]}"></span>${key==='crate'?'<span class="prop-sprite crate-top" style="background-position:50% 100%"></span>':''}${key==='hollow'?`<span class="sprite-secret">✧</span><span class="hollow-vines">${propArt('leaf')}</span>`:''}`;
     scene.append(object);
     object.addEventListener('click',()=>{
       if(gameState.rewarding)return;
@@ -70,17 +74,28 @@ function setupSearch() {
       $('#level-feedback').textContent={bush:'露水從葉尖落下，裡面只有一片柔軟的羽毛。',rock:'苔蘚下面有小小的足跡，往老樹的方向去了。',honey:'小蜜蜂繞了個圈，像是在指向那片樹蔭。',crate:'木箱輕輕打開，松鼠的橡果滾了出來。',flower:'花瓣送出一陣香氣，金色微光在樹旁一閃而過。'}[key];
     },{signal:activeController.signal});
   });
+  searchAtlasReady.then(ready=>{
+    if(ready && scene.classList.contains('search-scene'))scene.classList.add('search-art-ready');
+  });
 }
 function setupParallax() {
-  scene.className='detailed-scene parallax-scene physical-perspective';
-  scene.innerHTML=ambience()+resonance()+`<div class="scene-story">四片古老的木雕，藏著同一個輪廓。</div>${detailedSVG(`<ellipse cx="400" cy="320" rx="145" ry="22" fill="#1c2d2270"/><g class="view-guide" fill="none" stroke="#eed89a" stroke-width="1" stroke-dasharray="3 7"><path d="${G.path(G.outline,p=>({x:400+p.x,y:210+p.z}))}"/></g><g class="depth-branches" stroke="#684b2a" stroke-width="9" stroke-linecap="round"></g><g class="perspective-pieces" fill="url(#wood3d)" stroke="#e6c18b" stroke-width="1.6" filter="url(#propShadow)">${G.fragments.map((_,i)=>`<path data-fragment="${i}"/>`).join('')}</g><g class="perspective-grain" fill="url(#grain3d)" pointer-events="none">${G.fragments.map((_,i)=>`<path data-grain="${i}"/>`).join('')}</g>`,'0 0 800 450','class="physical-svg"')}${sceneControl('移動森林視角','往左走','往右走',14)}`;
-  const target=G.cameraPolygons(62);
+  scene.className='detailed-scene parallax-scene heart-scene';
+  scene.innerHTML=ambience()+resonance()+`<div class="scene-story">轉動木雕，讓一顆心從不同深度慢慢浮現。</div>${detailedSVG(`<ellipse cx="400" cy="377" rx="170" ry="16" fill="#0b201680"/><path d="M365 370L380 341H420L435 370Z" fill="url(#wood3d)" stroke="#d3ad70"/><path d="M400 335V352" stroke="#c99e60" stroke-width="9"/><circle cx="400" cy="211" r="150" fill="#132a214d" stroke="#d1af73" stroke-width="6"/><circle cx="400" cy="211" r="141" fill="none" stroke="#dcc18a55" stroke-width="1"/>${Array.from({length:24},(_,i)=>`<path d="M400 62v${i%3===0?10:5}" transform="rotate(${i*15} 400 211)" stroke="#edd39a" stroke-width="1.5"/>`).join('')}<path class="heart-guide" d="${G.path(G.heart,p=>({x:400+p.x,y:212+p.z}))}" fill="#edc67410" stroke="#f4d49a" stroke-width="2" stroke-dasharray="4 6"/><ellipse class="turning-ring" cx="400" cy="211" rx="145" ry="150" fill="none" stroke="#bd8b47" stroke-width="3"/><g class="heart-pieces" filter="url(#propShadow)">${G.heartSlices.map((_,i)=>`<g data-heart-piece="${i}"><path class="heart-side" fill="#58351e"/><path class="heart-face" fill="${['#b28547','#ddbc7c','#9d753c'][i]}" stroke="#ffe3a5" stroke-width="1.8"/><path class="heart-grain" fill="url(#grain3d)"/></g>`).join('')}</g><text class="heart-reveal" x="400" y="215" text-anchor="middle" fill="#fff0c5" font-size="18" letter-spacing="4">FOR YOU</text>`,'0 0 800 450','class="heart-device-svg"')}${sceneControl('旋轉森林心願裝置','向左轉','向右轉',16)}`;
+  const target=G.heartPolygons(50);
   const renderView=(value,check=true)=>{
-    const polys=G.cameraPolygons(value);
-    polys.forEach((poly,i)=>{$(`[data-fragment="${i}"]`,scene).setAttribute('d',G.path(poly,p=>({x:p.x,y:p.y})));$(`[data-grain="${i}"]`,scene).setAttribute('d',G.path(poly,p=>({x:p.x,y:p.y})));});
-    $('.depth-branches',scene).innerHTML=polys.map((poly,i)=>{const p=poly[0];return `<path d="M${p.x} ${p.y-8} Q${p.x-30} ${p.y-55} ${p.x-150-i*9} ${p.y-75}"/>`;}).join('');
+    const polys=G.heartPolygons(value),backs=G.heartPolygons(value,true);
+    polys.forEach((poly,i)=>{
+      const piece=$(`[data-heart-piece="${i}"]`,scene);
+      $('.heart-side',piece).setAttribute('d',G.path(backs[i]));
+      $('.heart-face',piece).setAttribute('d',G.path(poly));
+      $('.heart-grain',piece).setAttribute('d',G.path(poly));
+    });
+    $('.turning-ring',scene).setAttribute('rx',String(145*Math.abs(Math.cos((value-50)*Math.PI/150))));
     const mapped=polys.map(poly=>poly.map(p=>({x:p.x,z:p.y}))),goal=target.map(poly=>poly.map(p=>({x:p.x,z:p.y})));
-    if(check)geometryFeedback(G.rms(mapped,goal),1,()=>{$('input',scene).value='62';renderView(62,false);});
+    if(check){
+      geometryFeedback(G.rms(mapped,goal),1,()=>{$('input',scene).value='50';renderView(50,false);});
+      if(!scene.classList.contains('aligned'))$('#level-feedback').textContent='看著虛線愛心，轉到三片木雕的邊緣剛好相接。';
+    }
   };
   installPerspectiveControl($('input',scene),renderView);
 }

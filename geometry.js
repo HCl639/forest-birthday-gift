@@ -25,5 +25,25 @@
   const depths=[140,280,440,620],focal=600,targetCamera=60;
   const cameraPolygons=value=>fragments.map((poly,i)=>{const scale=focal/(focal+depths[i]);const camera=(value-50)*5;return poly.map(p=>({x:400+(targetCamera+p.x/scale-camera)*scale,y:210+p.z}));});
   const path=(poly,project=p=>p)=>poly.map((p,i)=>{const v=project(p);return `${i?'L':'M'}${v.x.toFixed(2)},${v.y.toFixed(2)}`;}).join(' ')+' Z';
-  globalThis.ForestGeometry={outline,fragments,sources,targets,heights,lightAt,shadow,iso,rms,shadowPolygons,cameraPolygons,path};
+  // 三塊有真實深度的心形木雕，轉動同一座裝置後做透視投影。
+  const heart=[];
+  for(let i=0;i<120;i++){
+    const t=i/120*Math.PI*2;
+    heart.push({x:16*Math.sin(t)**3*7,z:-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*7-18});
+  }
+  const heartSlices=[clip(heart.map(p=>({x:p.x+38,z:p.z})),'x',-1).map(p=>({x:p.x-38,z:p.z})),
+    clip(clip(heart.map(p=>({x:p.x+38,z:p.z})),'x',1).map(p=>({x:p.x-76,z:p.z})),'x',-1).map(p=>({x:p.x+38,z:p.z})),
+    clip(heart.map(p=>({x:p.x-38,z:p.z})),'x',1).map(p=>({x:p.x+38,z:p.z}))];
+  const heartDepths=[-95,0,95],heartFocal=650;
+  function heartPolygons(value,back=false){
+    const angle=(value-50)*Math.PI/150,c=Math.cos(angle),s=Math.sin(angle);
+    return heartSlices.map((poly,i)=>poly.map(p=>{
+      const depth=heartDepths[i],scale=(heartFocal+depth)/heartFocal;
+      const x=p.x*scale,y=p.z*scale,z=depth+(back?10:0);
+      const rx=x*c+z*s,rz=-x*s+z*c;
+      const perspective=heartFocal/(heartFocal+rz);
+      return {x:400+rx*perspective,y:212+y*perspective};
+    }));
+  }
+  globalThis.ForestGeometry={outline,fragments,sources,targets,heights,lightAt,shadow,iso,rms,shadowPolygons,cameraPolygons,path,heart,heartSlices,heartPolygons};
 })();

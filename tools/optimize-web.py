@@ -14,6 +14,8 @@ for name, size, quality in [('forest-cinematic', (1672, 941), 84),
     target = root / f'assets/{name}.webp'
     image.save(target, 'WEBP', quality=quality, method=6)
     print(name, target.stat().st_size)
+image = Image.open(root / 'assets/woodland-props.png').resize((720,480),Image.Resampling.LANCZOS)
+image.save(root / 'assets/woodland-props-small.webp','WEBP',quality=84,method=6)
 subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-v', 'error', '-y',
     '-i', str(root / 'assets/birthday-enhanced.mp4'), '-c:v', 'libx264',
     '-preset', 'slow', '-crf', '24', '-pix_fmt', 'yuv420p', '-c:a', 'copy',

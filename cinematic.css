@@ -68,7 +68,15 @@
 .resonance-fill{display:block;width:0;height:100%;background:#e8c782;box-shadow:0 0 7px #ffe8af;transition:width .1s}
 .view-guide{opacity:.28}
 .depth-branches{fill:none}
-.prop-sprite{display:block;position:absolute;inset:0;background-image:url('assets/woodland-props.webp');background-size:300% 200%;background-repeat:no-repeat;pointer-events:none}
+.prop-sprite{display:block;position:absolute;inset:0;background-image:url('assets/woodland-props-small.webp');background-size:300% 200%;background-repeat:no-repeat;pointer-events:none;opacity:0}
+.prop-fallback{position:absolute;inset:0;pointer-events:none}
+.search-art-ready .prop-sprite{opacity:1;transition:opacity .2s}
+.search-art-ready .prop-fallback{opacity:0;transition:opacity .2s}
+.heart-device-svg{position:absolute;inset:0;width:100%;height:calc(100% - 45px);pointer-events:none}
+.heart-reveal{opacity:0;transition:opacity .6s;pointer-events:none;font-family:Georgia,serif}
+.aligned .heart-reveal{opacity:1}
+.aligned .heart-pieces{filter:drop-shadow(0 0 12px #f9d48a)}
+.aligned .heart-guide{opacity:0}
 .crate-body{clip-path:polygon(0 34%,100% 34%,100% 100%,0 100%)}
 .crate-top{clip-path:polygon(0 0,100% 0,100% 35%,0 35%);transform-origin:20% 34%}
 .react .crate-top{animation:lid-open 1.2s ease}

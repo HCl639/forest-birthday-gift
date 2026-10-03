@@ -19,7 +19,7 @@ const storageKey = 'wishing-woods-progress-v1';
 const gameState = { levels: [false, false, false, false], active: null, rewarding: false, playing: false, mediaReady: false };
 const levels = [
   { title: '森林尋物', eyebrow: 'CHAPTER 01 · 白天的悄悄話', instruction: '探一探苔蘚、木箱和樹洞。小動物留下的線索，會帶你找到第一塊拼圖。' },
-  { title: '換個角度，魔法就出現', eyebrow: 'CHAPTER 02 · 午後的光與風', instruction: '左右走一走，或移動下方刻度。讓懸在不同遠近的四片木雕，在眼前拼成同一個輪廓。' },
+  { title: '轉動森林的心願', eyebrow: 'CHAPTER 02 · 午後的心願裝置', instruction: '左右拖曳裝置，或移動下方刻度。讓不同深度的三片木雕，在眼前合成一顆完整的心；對準後停留片刻。' },
   { title: '追著黃昏的光走', eyebrow: 'CHAPTER 03 · 夕陽寫下的線索', instruction: '左右拖動夕陽刻度。四片木雕懸在不同高度；讓它們投在石台上的影子，貼合淡淡的輪廓。' },
   { title: '把心願連成天秤', eyebrow: 'CHAPTER 04 · 星空裡的生日願望', instruction: '從輕輕閃爍的星星開始，依序點亮星光，最後回到起點，畫出天秤座。' }
 ];
@@ -76,7 +76,7 @@ dialog.addEventListener('cancel',event => { event.preventDefault(); closeLevel()
 dialog.addEventListener('click',event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) closeLevel(); } });
 function openLevel(index) {
   if (gameState.rewarding || gameState.playing || gameState.levels[index] || (index && !gameState.levels[index-1])) return;
-  prepareVideo();
+  if(index > 0)prepareVideo();
   stopLevel(); activeController = new AbortController(); gameState.active = index;
   $('#level-title').textContent = levels[index].title; $('#level-eyebrow').textContent = levels[index].eyebrow; $('#level-instruction').textContent = levels[index].instruction;
   $('#level-feedback').textContent = ''; scene.innerHTML = ''; scene.className = ''; dialog.showModal();
@@ -90,7 +90,7 @@ async function award(index) {
   $$('.fragment, .shadow-fragment',scene).forEach(fragment => { fragment.style.transition = 'transform .4s ease'; fragment.style.transform = 'none'; });
   $('#level-feedback').textContent = ['找到第一塊了。','風景相遇，第二塊拼圖亮起來了。','光與影的秘密，原來在這裡。','天秤座把最後一塊拼圖送給你。'][index];
   stopLevel();
-  await delay(900);
+  await delay(index === 1 ? 2200 : 900);
   dialog.close(); gameState.active = null;
   // 小螢幕可能剛從頁面下方開關卡，先把木框帶回視野，讓飛入動畫可見。
   $('#wood-frame').scrollIntoView({block:'center',behavior:'instant'});
