@@ -6,13 +6,6 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const video = $('#birthday-video');
-let videoWarmed = false;
-function prepareVideo() {
-  if(videoWarmed)return;
-  videoWarmed = true;
-  video.preload = 'auto';
-  video.load();
-}
 const dialog = $('#level-dialog');
 const scene = $('#level-scene');
 const storageKey = 'wishing-woods-progress-v1';
@@ -76,7 +69,6 @@ dialog.addEventListener('cancel',event => { event.preventDefault(); closeLevel()
 dialog.addEventListener('click',event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) closeLevel(); } });
 function openLevel(index) {
   if (gameState.rewarding || gameState.playing || gameState.levels[index] || (index && !gameState.levels[index-1])) return;
-  if(index > 0)prepareVideo();
   stopLevel(); activeController = new AbortController(); gameState.active = index;
   $('#level-title').textContent = levels[index].title; $('#level-eyebrow').textContent = levels[index].eyebrow; $('#level-instruction').textContent = levels[index].instruction;
   $('#level-feedback').textContent = ''; scene.innerHTML = ''; scene.className = ''; dialog.showModal();
@@ -131,7 +123,7 @@ video.addEventListener('error',() => { gameState.mediaReady = false; if (gameSta
 $('#choose-video').addEventListener('click',() => $('#video-file').click());
 $('#video-file').addEventListener('change',async event => {
   const file = event.target.files[0]; if(!file || gameState.playing) return;
-  videoWarmed = true; video.preload = 'auto';
+  video.preload = 'auto';
   const generation = ++mediaGeneration;
   gameState.mediaReady = false; $('#door').disabled = true;
   if(fileURL) URL.revokeObjectURL(fileURL); fileURL = URL.createObjectURL(file);
@@ -188,10 +180,6 @@ $('#reset').addEventListener('click',() => {
   closeLevel(); gameState.levels.fill(false); save(); renderProgress(); toast('新的森林旅程，從第一片葉子開始。');
 });
 renderProgress();
-// 回訪已有進度時，等首頁完成載入才準備影片，不和首屏圖片搶頻寬。
-window.addEventListener('load',() => {
-  if(gameState.levels.some(Boolean))setTimeout(prepareVideo,1000);
-},{once:true});
 
 // 畫框依主場景剩餘高度排版，文字和關卡入口保持正常字級，整頁不需捲動。
 function fitForestLayout() {
