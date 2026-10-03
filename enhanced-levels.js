@@ -81,6 +81,10 @@ function setupSearch() {
 function setupParallax() {
   scene.className='detailed-scene parallax-scene heart-scene';
   scene.innerHTML=ambience()+resonance()+`<div class="scene-story">轉動木雕，讓一顆心從不同深度慢慢浮現。</div>${detailedSVG(`<ellipse cx="400" cy="377" rx="170" ry="16" fill="#0b201680"/><path d="M365 370L380 341H420L435 370Z" fill="url(#wood3d)" stroke="#d3ad70"/><path d="M400 335V352" stroke="#c99e60" stroke-width="9"/><circle cx="400" cy="211" r="150" fill="#132a214d" stroke="#d1af73" stroke-width="6"/><circle cx="400" cy="211" r="141" fill="none" stroke="#dcc18a55" stroke-width="1"/>${Array.from({length:24},(_,i)=>`<path d="M400 62v${i%3===0?10:5}" transform="rotate(${i*15} 400 211)" stroke="#edd39a" stroke-width="1.5"/>`).join('')}<path class="heart-guide" d="${G.path(G.heart,p=>({x:400+p.x,y:212+p.z}))}" fill="#edc67410" stroke="#f4d49a" stroke-width="2" stroke-dasharray="4 6"/><ellipse class="turning-ring" cx="400" cy="211" rx="145" ry="150" fill="none" stroke="#bd8b47" stroke-width="3"/><g class="heart-pieces" filter="url(#propShadow)">${G.heartSlices.map((_,i)=>`<g data-heart-piece="${i}"><path class="heart-side" fill="#58351e"/><path class="heart-face" fill="${['#b28547','#ddbc7c','#9d753c'][i]}" stroke="#ffe3a5" stroke-width="1.8"/><path class="heart-grain" fill="url(#grain3d)"/></g>`).join('')}</g><text class="heart-reveal" x="400" y="215" text-anchor="middle" fill="#fff0c5" font-size="18" letter-spacing="4">FOR YOU</text>`,'0 0 800 450','class="heart-device-svg"')}${sceneControl('旋轉森林心願裝置','向左轉','向右轉',16)}`;
+  const device=$('.heart-device-svg',scene);
+  const fitDevice=()=>device.setAttribute('viewBox',window.innerWidth<=600?'200 0 400 450':'0 0 800 450');
+  fitDevice();
+  window.addEventListener('resize',fitDevice,{signal:activeController.signal});
   const target=G.heartPolygons(50);
   const renderView=(value,check=true)=>{
     const polys=G.heartPolygons(value),backs=G.heartPolygons(value,true);
