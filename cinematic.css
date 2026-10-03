@@ -1,0 +1,210 @@
+/* 與影片對齊的自然材質、景深與暖光。保留純前端、離線可用。 */
+.cinematic-forest .world{background:#293b2b}
+.cinematic-forest .world:before{content:"";position:absolute;inset:0;background:url('assets/forest-cinematic.png') center/cover no-repeat;transition:filter 3s,transform 10s;filter:brightness(.88) saturate(.86)}
+.cinematic-forest .world:after{content:"";position:absolute;inset:0;background:linear-gradient(#17261c66,transparent 48%,#14261777),radial-gradient(ellipse at 50% 25%,#fcf0c64d,transparent 55%);transition:background 3s,opacity 3s;pointer-events:none}
+.cinematic-forest #forest,.cinematic-forest .sky,.cinematic-forest .sun-glow{display:none}
+.cinematic-forest .night-sky{z-index:1;background:linear-gradient(#0a1a36bb,#16364c66)}
+.cinematic-forest[data-time="1"] .world:before{filter:brightness(.86) saturate(.9) sepia(.13)}
+.cinematic-forest[data-time="2"] .world:before{filter:brightness(.65) saturate(.9) sepia(.4)}
+.cinematic-forest[data-time="2"] .world:after{background:linear-gradient(#ae48244d,#af632533,#18251999)}
+.cinematic-forest[data-time="3"] .world:before,.cinematic-forest[data-time="4"] .world:before{filter:brightness(.29) saturate(.6)}
+.cinematic-forest{--ink:#fff2cf;--muted:#e1d7b3}
+.cinematic-forest .site-header{color:#fff2cf;text-shadow:0 2px 12px #101e14}
+.cinematic-forest .brand-leaf,.cinematic-forest .brand-caption{color:#eadbb1}
+.cinematic-forest .progress{background:#21382588;border-color:#ecdb9866;backdrop-filter:blur(8px)}
+.cinematic-forest .progress span{color:#e7d29d}
+.cinematic-forest .introduction{filter:drop-shadow(0 3px 14px #162814)}
+.cinematic-forest h1{color:#fff6dd;text-shadow:0 2px 3px #172e1b,0 0 28px #182219}
+.cinematic-forest h1 span{color:#ffe0a0}
+.cinematic-forest .introduction p,.cinematic-forest .eyebrow,.cinematic-forest .frame-message,.cinematic-forest .trail-caption,.cinematic-forest .friend-note{color:#fff2cc;text-shadow:0 2px 7px #1f3218}
+.cinematic-forest .eyebrow span,.cinematic-forest .dotted-line{background:#dccc9a;border-color:#dbc596}
+.cinematic-forest .wood-frame{background:repeating-linear-gradient(2deg,#2e1b0c22 0 2px,transparent 3px 10px),linear-gradient(110deg,#57381e,#b18852 10%,#77512d 24%,#bc965e 74%,#4d321d);box-shadow:0 14px 35px #111f1688,inset 0 0 0 3px #352919,inset 0 0 0 6px #d9bd7a66}
+.cinematic-forest .frame-leaves{color:#446d32;filter:drop-shadow(0 3px 3px #203119)}
+.cinematic-forest .piece:not(.collected){background:radial-gradient(ellipse at 28% 25%,#647554,#283c2d);border-color:#a7aa7440}
+.cinematic-forest .piece span{color:#d8dba155;text-shadow:0 0 12px #d1ce7966}
+.cinematic-forest .forest-friend{width:180px;right:calc(50% - var(--frame-width)/2 - 150px);bottom:20px;filter:drop-shadow(0 9px 5px #10261766)}
+.forest-friend img{width:100%;height:auto;display:block}
+.cinematic-forest .level-entry{color:#f6e8c6}
+.cinematic-forest .level-entry:before{background:repeating-linear-gradient(3deg,transparent 0 9px,#3d261b44 10px 11px),linear-gradient(100deg,#5b3d25,#896543 35%,#624127);border:1px solid #d1ac7066;box-shadow:0 10px 25px #14231c55,inset 0 0 0 3px #36251a55}
+.cinematic-forest .level-entry.leaf:before{background:linear-gradient(115deg,#35513a,#66815b 42%,#283f2d)}
+.cinematic-forest .level-entry.stone:before{background:radial-gradient(ellipse at 30% 15%,#788776,#3f5546);border-color:#c8c9a855}
+.cinematic-forest .level-entry.night:before{background:linear-gradient(120deg,#273d50,#405868,#25384a)}
+.cinematic-forest .level-meta,.cinematic-forest .level-sub,.cinematic-forest .entry-status{color:#e0d7b4}
+.cinematic-forest .level-entry:disabled{opacity:.72;filter:saturate(.7)}
+.cinematic-forest .level-entry.done .entry-status,.cinematic-forest .level-entry.done:after{color:#f3cc80}
+.cinematic-forest footer{color:#ebe0b9;text-shadow:0 2px 5px #192b19}
+.cinematic-forest dialog{background:linear-gradient(145deg,#263c2b,#152c28 85%);border:1px solid #e3ca8155;color:#f0dfba;box-shadow:0 30px 110px #061712bb}
+.cinematic-forest .dialog-top,.cinematic-forest #level-instruction{color:#cfcdb0}
+.cinematic-forest dialog h2{color:#ffedc1;text-shadow:0 2px 3px #0b1a14}
+#level-scene.detailed-scene{background:#243e2c;isolation:isolate;min-height:320px;border:1px solid #d0c58744;box-shadow:inset 0 0 70px #13231999}
+.detailed-scene:before{content:"";position:absolute;inset:0;background:url('assets/forest-cinematic.png') center/cover;z-index:-2;filter:brightness(.64) saturate(.82)}
+.detailed-scene:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#102b2222,#18301c11 35%,#1b311966)}
+.scene-haze{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 16%,#ffdf8a33,transparent 60%);pointer-events:none}
+.detailed-prop{width:16%;min-width:44px;filter:drop-shadow(5px 10px 4px #0f241b77);transition:filter .3s,transform .3s}
+.detailed-prop:hover{filter:drop-shadow(0 0 10px #ffe3a04d)}
+.prop-hollow{width:18%;height:35%;aspect-ratio:auto}
+.hidden-piece{opacity:.38;animation:buried-glow 3s infinite}
+.hollow-curtain{transform-origin:65px 85px;transition:transform .7s}
+.discovered .hollow-curtain{transform:rotate(55deg) translate(12px,9px)}
+.discovered .hidden-piece{opacity:1;filter:drop-shadow(0 0 8px #ffe0a4)}
+.crate-lid{transform-origin:16px 30px}
+.react .crate-lid{animation:lid-open 1.2s ease}
+.exploration-note,.star-journal{position:absolute;left:17px;top:14px;font-size:10px;letter-spacing:1px;color:#ffefc6;z-index:4;text-shadow:0 2px 4px #142919}
+.exploration-note span,.star-journal span{margin-left:10px;color:#d8c083}
+.search-clue{position:absolute;bottom:13px;left:10%;right:10%;text-align:center;font-size:11px;line-height:1.8;color:#ffe7b3;text-shadow:0 1px 8px #112a19;pointer-events:none}
+.illustrated-reaction{width:48px;height:48px;animation:woodland-float 1.8s ease-out forwards}
+.illustrated-reaction svg{width:100%;height:100%}
+.bee-flight{animation:bee-flight 1.8s ease-in-out forwards}
+.scene-dust{position:absolute;inset:0;pointer-events:none;z-index:3}
+.scene-dust i{position:absolute;left:var(--x);top:var(--y);width:3px;height:3px;border-radius:50%;background:#ffe4a9;box-shadow:0 0 9px #ffde8a;opacity:0;animation:dust-float 7s var(--delay) infinite}
+.detailed-scene.parallax-scene:before{filter:brightness(.53) sepia(.28)}
+.physical-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.scene-story{position:absolute;left:15px;bottom:59px;font-size:10px;letter-spacing:1px;color:#eee1bb;z-index:3;text-shadow:0 1px 6px #10251b}
+.physical-control{background:#1b302bba;border:1px solid #c6ab7166;border-radius:25px;padding:2px 14px;bottom:12px;left:10%;right:10%;color:#efdab0;backdrop-filter:blur(6px)}
+.physical-control span{white-space:nowrap;font-size:10px}
+.physical-control input{accent-color:#dfb25c;touch-action:none}
+.resonance{position:absolute;top:14px;right:16px;color:#eed8a6;font-size:9px;letter-spacing:1px;z-index:3;text-shadow:0 1px 3px #10251b}
+.resonance>div{width:90px;height:3px;background:#eee3ad22;margin-top:6px;border-radius:4px;overflow:hidden}
+.resonance-fill{display:block;width:0;height:100%;background:#e8c782;box-shadow:0 0 7px #ffe8af;transition:width .1s}
+.view-guide{opacity:.28}
+.depth-branches{fill:none}
+.prop-sprite{display:block;position:absolute;inset:0;background-image:url('assets/woodland-props.png');background-size:300% 200%;background-repeat:no-repeat;pointer-events:none}
+.crate-body{clip-path:polygon(0 34%,100% 34%,100% 100%,0 100%)}
+.crate-top{clip-path:polygon(0 0,100% 0,100% 35%,0 35%);transform-origin:20% 34%}
+.react .crate-top{animation:lid-open 1.2s ease}
+.sprite-secret{position:absolute;left:40%;top:44%;font-size:30px;color:#ffe5a0;opacity:.3;text-shadow:0 0 14px #ffd476;animation:buried-glow 3s infinite}
+.hollow-vines{position:absolute;left:37%;top:34%;width:46%;height:43%;transition:transform .7s;transform-origin:90% 90%;pointer-events:none}
+.discovered .hollow-vines{transform:rotate(50deg) translate(30%,30%)}
+.discovered .sprite-secret{opacity:1;animation:none;text-shadow:0 0 15px #ffe493}
+@media(max-width:540px){.physical-shadows .physical-svg,.physical-perspective .physical-svg{width:150%;left:-25%;top:35px;height:calc(100% - 95px)}}
+.cinematic-forest[data-time] .level-entry{color:#f6e8c6}
+.search-clue{background:#10291caa;border-radius:16px;padding:3px 9px;bottom:7px}
+@media(max-width:540px){.prop-hollow{top:35%!important}}
+.pooh-portrait{display:block;aspect-ratio:4/5;overflow:hidden;border-radius:48% 48% 42% 42%;border:4px solid #d4b16d;box-shadow:0 8px 22px #12231888,inset 0 0 0 2px #594023;background:#2c3e30}
+.pooh-portrait img{width:100%;height:100%;object-fit:cover;object-position:12% center}
+.pooh-name{display:block;text-align:center;font:italic 11px Georgia,serif;letter-spacing:.6px;color:#ffe2a1;margin-top:9px;text-shadow:0 2px 5px #132a1c}
+@media(max-width:540px){.pooh-portrait{border-width:2px}.pooh-name{font-size:8px;margin-top:5px}}
+.aligned .perspective-pieces,.aligned .vector-shadows{filter:drop-shadow(0 0 8px #ffdf7d)}
+.aligned .vector-shadows{fill:#e2b964;fill-opacity:.85;transition:fill .5s,fill-opacity .5s}
+.detailed-scene.shadow-scene:before{filter:brightness(.45) sepia(.6) saturate(.9)}
+.detailed-scene.shadow-scene:after{background:linear-gradient(120deg,#d8824522,#cd9d5922 40%,#1e261955)}
+.wood-sources{pointer-events:none}
+.light-traces{transition:opacity .4s}
+.aligned .light-traces{opacity:.7}
+.detailed-scene.night-scene{background:#081527!important}
+.detailed-scene.night-scene:before{filter:brightness(.22) saturate(.6)}
+.detailed-scene.night-scene:after{background:radial-gradient(ellipse at 50% 45%,#1f426478,#09142ce6 83%)}
+.detailed-stars .star-decoration{animation:night-twinkle 4s infinite}
+.detailed-stars .star-button{font-size:18px}
+.star-name{position:absolute;top:34px;left:19px;font-family:Georgia,serif;font-size:11px;opacity:0;transition:opacity .4s;color:#ddc88e}
+.next .star-name,.chosen .star-name{opacity:.75}
+.good-lines{filter:drop-shadow(0 0 1px #f5d38e)}
+.shooting-star{position:absolute;left:65%;top:10%;width:80px;height:1px;background:linear-gradient(90deg,transparent,#f5e8c9);transform:rotate(-25deg);animation:shooting-star 9s infinite;pointer-events:none;opacity:0}
+.detailed-stars .libra-mark{bottom:7%;font-size:31px;text-shadow:0 0 20px #e3b461}
+.libra-mark span{display:block;font-size:12px;letter-spacing:6px;margin-top:5px}
+.libra-mark small{display:block;font-size:10px;font-family:"Microsoft JhengHei",sans-serif;letter-spacing:1px;margin-top:9px}
+.cinematic-forest.cinema .wood-frame{background:none;box-shadow:none;padding:0}
+@keyframes lid-open{30%,60%{transform:translateY(-9px) rotate(-14deg)}}
+@keyframes buried-glow{50%{opacity:.85;filter:drop-shadow(0 0 5px #f4ce74)}}
+@keyframes woodland-float{to{transform:translate(25px,-65px) rotate(50deg);opacity:0}}
+@keyframes bee-flight{35%{transform:translate(25px,-35px)}70%{transform:translate(-25px,-65px)}to{transform:translate(60px,-90px);opacity:0}}
+@keyframes dust-float{30%,70%{opacity:.5}to{transform:translate(20px,-40px);opacity:0}}
+@keyframes night-twinkle{50%{opacity:.8}}
+@keyframes shooting-star{0%,80%,100%{opacity:0}83%{opacity:.8;transform:translate(0,0) rotate(-25deg)}88%{opacity:0;transform:translate(-220px,100px) rotate(-25deg)}}
+@media(max-width:800px){.cinematic-forest .forest-friend{width:125px;right:calc(50% - var(--frame-width)/2 - 74px)}.cinematic-forest .introduction{margin-top:15px}}
+@media(max-width:540px){.cinematic-forest .world:before{background-position:45% center}.cinematic-forest .forest-friend{width:90px;right:-4%;bottom:25px}.cinematic-forest .level-entry{color:#f3e4bb}#level-scene.detailed-scene{min-height:365px;aspect-ratio:.85}.physical-svg{top:30px;height:calc(100% - 80px)}.scene-story{font-size:9px;left:10px;right:10px;bottom:65px;line-height:1.7;text-align:center}.physical-control{left:5%;right:5%;padding:3px 10px}.physical-control span{font-size:9px}.search-clue{font-size:9px;bottom:10px}.detailed-prop{width:17%;min-width:45px}.prop-hollow{width:22%;height:30%;top:25%!important;left:65%!important}.prop-flower{top:45%!important}.resonance>div{width:65px}.detailed-stars .libra-mark{font-size:24px}.libra-mark small{font-size:9px}.cinematic-forest dialog{padding:18px 14px}.cinematic-forest .level-sub{color:#ddd4b2}}
+@media(prefers-reduced-motion:reduce){.scene-dust i,.shooting-star{display:none}}
+/* 一屏構圖：保留可讀字級與操作尺寸，讓畫框使用剩餘空間。 */
+html{height:100%;overflow:hidden}
+body.cinematic-forest{height:100vh;height:100dvh;min-height:0;overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.cinematic-forest .site-header{width:100%;padding:18px 5vw 12px}
+.cinematic-forest main{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:0 0 5px}
+.cinematic-forest .introduction{margin:0}
+.cinematic-forest h1{font-size:clamp(30px,3.2vw,45px);margin:9px 0 8px}
+.cinematic-forest .introduction p{font-size:11px;line-height:1.8}
+.cinematic-forest .clearing{height:100%;min-height:0;width:min(920px,90vw)}
+.cinematic-forest .frame-wrap{width:min(var(--frame-width),var(--fitted-frame-width,560px))}
+.cinematic-forest .wood-frame{padding:12px}
+.cinematic-forest .frame-message{margin:12px -20px 0;font-size:10px;line-height:1.6;min-height:16px}
+.cinematic-forest .forest-friend{width:min(14vw,150px,calc(var(--clearing-height,300px)*.55));right:0;bottom:28px}
+.cinematic-forest .friend-note{right:0;bottom:3px;font-size:9px}
+.cinematic-forest .frame-leaves{font-size:65px;top:-25px;left:-25px}
+.cinematic-forest .trail{width:min(950px,94vw);margin:0 auto;padding:0 15px}
+.cinematic-forest .level-list{margin-top:8px;gap:16px;grid-template-columns:repeat(4,1fr)}
+.cinematic-forest .level-entry{min-height:145px;padding:4px 5px 10px}
+.cinematic-forest .entry-art{width:47px;height:40px;margin-bottom:0}
+.cinematic-forest .level-entry:before{inset:30px 0 0}
+.cinematic-forest .level-entry strong{font-size:21px}
+.cinematic-forest .level-meta{margin:4px 0;font-size:8px}
+.cinematic-forest .level-sub{font-size:9px;margin:6px 0 8px}
+.cinematic-forest .entry-status{font-size:9px}
+.cinematic-forest footer{width:100%;margin:0;padding:10px 5vw 12px;font-size:9px}
+.cinematic-forest dialog[open]{display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto;height:min(88dvh,720px);max-height:92dvh;overflow:hidden;gap:7px;padding:20px 28px 15px}
+.cinematic-forest dialog h2{margin:0;font-size:29px}
+.cinematic-forest #level-instruction{margin:0;font-size:11px;min-height:0}
+.cinematic-forest #level-scene.detailed-scene{min-height:0;height:100%;aspect-ratio:auto}
+.cinematic-forest #level-feedback{margin:0;font-size:11px;line-height:1.6;min-height:18px}
+.cinematic-forest .detailed-prop{width:min(16%,calc(var(--scene-height,450px)*.26));min-width:44px}
+.cinematic-forest .prop-hollow{width:18%;height:35%}
+@media(max-width:600px){
+  .cinematic-forest .site-header{padding:12px 5vw 8px}
+  .cinematic-forest main{gap:7px}
+  .cinematic-forest h1{font-size:29px;letter-spacing:2px;margin:8px 0 6px}
+  .cinematic-forest .eyebrow{font-size:8px;letter-spacing:2px}
+  .cinematic-forest .introduction p{font-size:10px;line-height:1.7}
+  .cinematic-forest .wood-frame{padding:9px}
+  .cinematic-forest .frame-message{font-size:9px;margin:9px -10px 0}
+  .cinematic-forest .forest-friend{width:min(18vw,80px,calc(var(--clearing-height,200px)*.5));bottom:24px}
+  .cinematic-forest .friend-note{display:none}
+  .cinematic-forest .trail{padding:0 5vw;width:100%}
+  .cinematic-forest .trail-caption{font-size:8px;letter-spacing:1px}
+  .cinematic-forest .level-list{grid-template-columns:repeat(2,1fr);gap:5px 14px;margin-top:5px}
+  .cinematic-forest .level-entry{min-height:119px;padding:2px 3px 8px}
+  .cinematic-forest .entry-art{width:37px;height:30px}
+  .cinematic-forest .level-entry:before{inset:23px 0 0}
+  .cinematic-forest .level-entry strong{font-size:19px}
+  .cinematic-forest .level-sub{font-size:8px;margin:4px 0 6px}
+  .cinematic-forest .level-meta{font-size:8px;margin:3px 0}
+  .cinematic-forest .entry-status{font-size:8px}
+  .cinematic-forest footer{padding:5px 4vw 7px;gap:2px;font-size:8px}
+  .cinematic-forest footer button{font-size:9px;padding:5px 0}
+  .cinematic-forest dialog[open]{padding:14px 13px 12px;gap:6px}
+  .cinematic-forest dialog h2{font-size:25px}
+  .cinematic-forest #level-instruction{font-size:10px}
+}
+@media(max-height:650px) and (max-width:600px){
+  .cinematic-forest .brand-caption{display:none}
+  .cinematic-forest h1{font-size:25px;margin:5px 0}
+  .cinematic-forest .introduction p{font-size:9px}
+  .cinematic-forest .eyebrow{font-size:7px}
+  .cinematic-forest .level-entry{min-height:97px}
+  .cinematic-forest .level-sub{display:none}
+  .cinematic-forest .level-entry strong{font-size:17px;margin-bottom:6px}
+  .cinematic-forest footer>span{display:none}
+}
+@media(max-height:520px) and (min-width:601px){
+  .cinematic-forest .site-header{padding:8px 4vw}
+  .cinematic-forest .brand-caption{display:none}
+  .cinematic-forest main{grid-template-columns:.85fr 1.15fr;grid-template-rows:minmax(0,1fr) auto;padding:0 4vw;gap:4px 20px}
+  .cinematic-forest .introduction{grid-column:1;grid-row:1;align-self:center}
+  .cinematic-forest .clearing{grid-column:2;grid-row:1;width:100%}
+  .cinematic-forest .trail{grid-column:1/-1;grid-row:2;width:100%;padding:0}
+  .cinematic-forest .trail-caption{display:none}
+  .cinematic-forest .level-list{gap:12px;margin-top:0}
+  .cinematic-forest h1{font-size:27px;letter-spacing:3px}
+  .cinematic-forest .eyebrow{font-size:7px;letter-spacing:2px}
+  .cinematic-forest .introduction p{font-size:10px}
+  .cinematic-forest .wood-frame{padding:7px}
+  .cinematic-forest .frame-message{margin-top:6px;font-size:8px}
+  .cinematic-forest .level-entry{min-height:105px;padding-bottom:7px}
+  .cinematic-forest .entry-art{width:31px;height:25px}
+  .cinematic-forest .level-entry:before{inset:19px 0 0}
+  .cinematic-forest .level-entry strong{font-size:18px;margin-bottom:6px}
+  .cinematic-forest .level-sub,.cinematic-forest .friend-note{display:none}
+  .cinematic-forest footer{padding:5px 4vw}
+  .cinematic-forest footer button{padding:3px 0}
+  .cinematic-forest dialog[open]{height:94dvh;padding:9px 20px;gap:3px}
+  .cinematic-forest dialog h2{font-size:22px}
+  .cinematic-forest #level-instruction{font-size:10px;line-height:1.5}
+  .cinematic-forest .physical-svg{top:0;left:0;width:100%;height:100%}
+}

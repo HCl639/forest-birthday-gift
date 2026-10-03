@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+/*-preview.jpg
+/preview.jpg
+/tools/publish-pages.py
+/tools/make-fireworks-loop.py
+/assets/birthday.mp4
+/assets/birthday-original.mp4
+/assets/door-frame.png
+/assets/door-frame.jpg
+/assets/forest-friends.png
+/assets/fireworks-loop.mp4
+/assets/fireworks-only-loop.mp4
