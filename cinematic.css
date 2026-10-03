@@ -72,11 +72,13 @@
 .prop-fallback{position:absolute;inset:0;pointer-events:none}
 .search-art-ready .prop-sprite{opacity:1;transition:opacity .2s}
 .search-art-ready .prop-fallback{opacity:0;transition:opacity .2s}
-.heart-device-svg{position:absolute;inset:0;width:100%;height:calc(100% - 45px);pointer-events:none}
-.heart-reveal{opacity:0;transition:opacity .6s;pointer-events:none;font-family:Georgia,serif}
-.aligned .heart-reveal{opacity:1}
-.aligned .heart-pieces{filter:drop-shadow(0 0 12px #f9d48a)}
-.aligned .heart-guide{opacity:0}
+.libra-device-svg{position:absolute;inset:0;width:100%;height:calc(100% - 45px);pointer-events:none}
+.libra-reveal{opacity:0;transition:opacity .6s;pointer-events:none;font-family:Georgia,serif}
+.aligned .libra-reveal{opacity:1}
+.aligned .libra-pieces{filter:drop-shadow(0 0 12px #f9d48a)}
+.aligned .libra-guide{opacity:0}
+.music-toggle{background:#18392c77;border:1px solid #c7b37b66;border-radius:20px;padding:7px 10px;color:#ffedc5;white-space:nowrap;font-size:10px}
+@media(max-width:600px){.cinematic-forest .header-right{gap:7px}.music-toggle{font-size:8px;padding:6px}.cinematic-forest .wordmark{font-size:8px;letter-spacing:1px}.cinematic-forest .brand-caption{font-size:8px;letter-spacing:1px}}
 .crate-body{clip-path:polygon(0 34%,100% 34%,100% 100%,0 100%)}
 .crate-top{clip-path:polygon(0 0,100% 0,100% 35%,0 35%);transform-origin:20% 34%}
 .react .crate-top{animation:lid-open 1.2s ease}

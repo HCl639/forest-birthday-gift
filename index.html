@@ -8,16 +8,17 @@
   <link rel="preload" href="assets/forest-cinematic.webp" as="image" fetchpriority="high">
   <link rel="preload" href="assets/woodland-props-small.webp" as="image">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="cinematic.css?v=3">
-  <script src="geometry.js?v=3" defer></script>
-  <script src="script.js?v=3" defer></script>
-  <script src="enhanced-levels.js?v=4" defer></script>
+  <link rel="stylesheet" href="cinematic.css?v=6">
+  <script src="geometry.js?v=6" defer></script>
+  <script src="music.js?v=6" defer></script>
+  <script src="script.js?v=6" defer></script>
+  <script src="enhanced-levels.js?v=6" defer></script>
 </head>
 <body data-time="0" class="cinematic-forest">
   <div class="world" aria-hidden="true"><div class="sky"></div><div class="sun-glow"></div><div class="night-sky"></div><svg id="forest" viewBox="0 0 1440 940" preserveAspectRatio="xMidYMax slice"></svg><div class="paper-grain"></div></div>
   <header class="site-header interface">
     <a class="wordmark" href="./index.html" aria-label="森林裡的生日秘密首頁"><span class="brand-leaf">❧</span> THE WISHING WOODS<span class="brand-caption">一份藏在森林裡的生日禮物</span></a>
-    <div class="header-right"><span id="time-label">白晝 · 森林甦醒</span><div class="progress" aria-label="拼圖收集進度"><span id="progress-icons" aria-hidden="true">◇ ◇ ◇ ◇</span><b id="progress-count">0 / 4</b></div></div>
+    <div class="header-right"><button id="music-toggle" class="music-toggle" type="button" aria-label="背景音樂開關" aria-pressed="true">♪ 音樂開</button><span id="time-label">白晝 · 森林甦醒</span><div class="progress" aria-label="拼圖收集進度"><span id="progress-icons" aria-hidden="true">◇ ◇ ◇ ◇</span><b id="progress-count">0 / 4</b></div></div>
   </header>
   <main>
     <section class="introduction interface"><div class="eyebrow"><span></span> A LITTLE FOREST WISH <span></span></div><h1>森林裡的<span>生日秘密</span></h1><p>森林裡藏著四塊拼圖。<br>找到它們，就能打開最後的秘密。</p></section>
@@ -27,7 +28,7 @@
     </section>
     <nav class="trail interface" aria-label="四個森林關卡"><div class="trail-caption"><span class="dotted-line"></span> 沿著小徑，尋找四份魔法 <span class="dotted-line"></span></div><div class="level-list">
       <button class="level-entry sign" data-level="0"><span class="entry-art" id="art-0"></span><span class="level-meta">01 / 白天</span><strong>森林尋物</strong><span class="level-sub">小小的秘密，躲在哪裡？</span><span class="entry-status">開始探索 <i>↗</i></span></button>
-      <button class="level-entry leaf" data-level="1" disabled><span class="entry-art" id="art-1"></span><span class="level-meta">02 / 午後</span><strong>轉動心願</strong><span class="level-sub">換個角度，看見完整的心。</span><span class="entry-status">等待第一塊拼圖</span></button>
+      <button class="level-entry leaf" data-level="1" disabled><span class="entry-art" id="art-1"></span><span class="level-meta">02 / 午後</span><strong>轉動天秤</strong><span class="level-sub">換個角度，看見天秤座符號。</span><span class="entry-status">等待第一塊拼圖</span></button>
       <button class="level-entry stone" data-level="2" disabled><span class="entry-art" id="art-2"></span><span class="level-meta">03 / 黃昏</span><strong>追著光走</strong><span class="level-sub">夕陽會告訴你答案。</span><span class="entry-status">等待第二塊拼圖</span></button>
       <button class="level-entry night" data-level="3" disabled><span class="entry-art" id="art-3"></span><span class="level-meta">04 / 星空</span><strong>天秤的星語</strong><span class="level-sub">把心願，連成一片星空。</span><span class="entry-status">等待第三塊拼圖</span></button>
     </div></nav>

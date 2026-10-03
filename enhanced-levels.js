@@ -79,26 +79,28 @@ function setupSearch() {
   });
 }
 function setupParallax() {
-  scene.className='detailed-scene parallax-scene heart-scene';
-  scene.innerHTML=ambience()+resonance()+`<div class="scene-story">轉動木雕，讓一顆心從不同深度慢慢浮現。</div>${detailedSVG(`<ellipse cx="400" cy="377" rx="170" ry="16" fill="#0b201680"/><path d="M365 370L380 341H420L435 370Z" fill="url(#wood3d)" stroke="#d3ad70"/><path d="M400 335V352" stroke="#c99e60" stroke-width="9"/><circle cx="400" cy="211" r="150" fill="#132a214d" stroke="#d1af73" stroke-width="6"/><circle cx="400" cy="211" r="141" fill="none" stroke="#dcc18a55" stroke-width="1"/>${Array.from({length:24},(_,i)=>`<path d="M400 62v${i%3===0?10:5}" transform="rotate(${i*15} 400 211)" stroke="#edd39a" stroke-width="1.5"/>`).join('')}<path class="heart-guide" d="${G.path(G.heart,p=>({x:400+p.x,y:212+p.z}))}" fill="#edc67410" stroke="#f4d49a" stroke-width="2" stroke-dasharray="4 6"/><ellipse class="turning-ring" cx="400" cy="211" rx="145" ry="150" fill="none" stroke="#bd8b47" stroke-width="3"/><g class="heart-pieces" filter="url(#propShadow)">${G.heartSlices.map((_,i)=>`<g data-heart-piece="${i}"><path class="heart-side" fill="#58351e"/><path class="heart-face" fill="${['#b28547','#ddbc7c','#9d753c'][i]}" stroke="#ffe3a5" stroke-width="1.8"/><path class="heart-grain" fill="url(#grain3d)"/></g>`).join('')}</g><text class="heart-reveal" x="400" y="215" text-anchor="middle" fill="#fff0c5" font-size="18" letter-spacing="4">FOR YOU</text>`,'0 0 800 450','class="heart-device-svg"')}${sceneControl('旋轉森林心願裝置','向左轉','向右轉',16)}`;
-  const device=$('.heart-device-svg',scene);
+  scene.className='detailed-scene parallax-scene libra-device-scene';
+  scene.innerHTML=ambience()+resonance()+`<div class="scene-story">轉動木雕，讓天秤符號從不同深度慢慢浮現。</div>${detailedSVG(`<ellipse cx="400" cy="377" rx="170" ry="16" fill="#0b201680"/><path d="M365 370L380 341H420L435 370Z" fill="url(#wood3d)" stroke="#d3ad70"/><path d="M400 335V352" stroke="#c99e60" stroke-width="9"/><circle cx="400" cy="211" r="150" fill="#132a214d" stroke="#d1af73" stroke-width="6"/><circle cx="400" cy="211" r="141" fill="none" stroke="#dcc18a55" stroke-width="1"/>${Array.from({length:24},(_,i)=>`<path d="M400 62v${i%3===0?10:5}" transform="rotate(${i*15} 400 211)" stroke="#edd39a" stroke-width="1.5"/>`).join('')}<path class="libra-guide" d="${G.path(G.libra,p=>({x:400+p.x,y:212+p.z}))}" fill="#edc67410" stroke="#f4d49a" stroke-width="2" stroke-dasharray="4 6"/><ellipse class="turning-ring" cx="400" cy="211" rx="145" ry="150" fill="none" stroke="#bd8b47" stroke-width="3"/><g class="libra-pieces" filter="url(#propShadow)">${G.libraSlices.map((_,i)=>`<g data-libra-piece="${i}"><path class="libra-side" fill="#58351e"/><path class="libra-face" fill="${['#b28547','#ddbc7c','#9d753c'][i]}" stroke="#ffe3a5" stroke-width="1.8"/><path class="libra-grain" fill="url(#grain3d)"/></g>`).join('')}</g><g class="libra-bar"><path class="bar-side" fill="#58351e"/><path class="bar-face" fill="#ddbc7c" stroke="#ffe3a5" stroke-width="1.8"/></g><text class="libra-reveal" x="400" y="316" text-anchor="middle" fill="#fff0c5" font-size="16" letter-spacing="4">LIBRA</text>`,'0 0 800 450','class="libra-device-svg"')}${sceneControl('旋轉森林天秤裝置','向左轉','向右轉',16)}`;
+  const device=$('.libra-device-svg',scene);
   const fitDevice=()=>device.setAttribute('viewBox',window.innerWidth<=600?'200 0 400 450':'0 0 800 450');
   fitDevice();
   window.addEventListener('resize',fitDevice,{signal:activeController.signal});
-  const target=G.heartPolygons(50);
+  const target=G.libraPolygons(50);
   const renderView=(value,check=true)=>{
-    const polys=G.heartPolygons(value),backs=G.heartPolygons(value,true);
+    const polys=G.libraPolygons(value),backs=G.libraPolygons(value,true);
+    $(".bar-face",scene).setAttribute("d",G.path(G.libraPolygons(value,false,true)[0]));
+    $(".bar-side",scene).setAttribute("d",G.path(G.libraPolygons(value,true,true)[0]));
     polys.forEach((poly,i)=>{
-      const piece=$(`[data-heart-piece="${i}"]`,scene);
-      $('.heart-side',piece).setAttribute('d',G.path(backs[i]));
-      $('.heart-face',piece).setAttribute('d',G.path(poly));
-      $('.heart-grain',piece).setAttribute('d',G.path(poly));
+      const piece=$(`[data-libra-piece="${i}"]`,scene);
+      $('.libra-side',piece).setAttribute('d',G.path(backs[i]));
+      $('.libra-face',piece).setAttribute('d',G.path(poly));
+      $('.libra-grain',piece).setAttribute('d',G.path(poly));
     });
     $('.turning-ring',scene).setAttribute('rx',String(145*Math.abs(Math.cos((value-50)*Math.PI/150))));
     const mapped=polys.map(poly=>poly.map(p=>({x:p.x,z:p.y}))),goal=target.map(poly=>poly.map(p=>({x:p.x,z:p.y})));
     if(check){
       geometryFeedback(G.rms(mapped,goal),1,()=>{$('input',scene).value='50';renderView(50,false);});
-      if(!scene.classList.contains('aligned'))$('#level-feedback').textContent='看著虛線愛心，轉到三片木雕的邊緣剛好相接。';
+      if(!scene.classList.contains('aligned'))$('#level-feedback').textContent='看著虛線天秤符號，轉到三片木雕的邊緣剛好相接。';
     }
   };
   installPerspectiveControl($('input',scene),renderView);

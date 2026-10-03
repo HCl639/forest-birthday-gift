@@ -5,7 +5,7 @@ from urllib.parse import unquote, urlsplit
 import re
 
 root=Path(__file__).resolve().parent.parent
-allowed={'index.html','style.css','cinematic.css','script.js','geometry.js','enhanced-levels.js'}
+allowed={'index.html','style.css','cinematic.css','script.js','music.js','geometry.js','enhanced-levels.js'}
 allowed.update(str(p.relative_to(root)).replace('\\','/') for p in (root/'assets').glob('*') if p.suffix in {'.mp4','.png','.jpg','.webp'})
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self,*args,**kwargs):

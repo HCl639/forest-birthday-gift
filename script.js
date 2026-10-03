@@ -19,7 +19,7 @@ const storageKey = 'wishing-woods-progress-v1';
 const gameState = { levels: [false, false, false, false], active: null, rewarding: false, playing: false, mediaReady: false };
 const levels = [
   { title: '森林尋物', eyebrow: 'CHAPTER 01 · 白天的悄悄話', instruction: '探一探苔蘚、木箱和樹洞。小動物留下的線索，會帶你找到第一塊拼圖。' },
-  { title: '轉動森林的心願', eyebrow: 'CHAPTER 02 · 午後的心願裝置', instruction: '左右拖曳裝置，或移動下方刻度。讓不同深度的三片木雕，在眼前合成一顆完整的心；對準後停留片刻。' },
+  { title: '轉出天秤的秘密', eyebrow: 'CHAPTER 02 · 午後的天秤裝置', instruction: '左右拖曳裝置，或移動下方刻度。從正確角度，讓不同深度的木雕合成天秤座符號 ♎；對準後停留片刻。' },
   { title: '追著黃昏的光走', eyebrow: 'CHAPTER 03 · 夕陽寫下的線索', instruction: '左右拖動夕陽刻度。四片木雕懸在不同高度；讓它們投在石台上的影子，貼合淡淡的輪廓。' },
   { title: '把心願連成天秤', eyebrow: 'CHAPTER 04 · 星空裡的生日願望', instruction: '從輕輕閃爍的星星開始，依序點亮星光，最後回到起點，畫出天秤座。' }
 ];
@@ -148,6 +148,7 @@ $('#video-file').addEventListener('change',async event => {
   event.target.value = '';
 });
 function recoverPlayback() {
+  window.forestMusic?.afterVideo();
   video.pause(); gameState.playing = false; video.classList.remove('visible'); document.body.classList.remove('cinema','cinema-expanded'); $('#wood-frame').classList.remove('playing'); $('#door').disabled = !gameState.mediaReady;
   $$('.interface').forEach(element => { element.inert = false; });
 }
@@ -159,6 +160,7 @@ $('#door').addEventListener('click',async () => {
     $('#door').style.setProperty(`--opening-${name}`,`${value}px`);
   }
   gameState.playing = true; video.currentTime = 0; video.muted = false; $('#door').disabled = true;
+  window.forestMusic?.beforeVideo();
   try {
     // play() 必須在此次使用者點擊的處理函式內啟動，允許手機播放帶聲音的影片。
     await video.play();
@@ -176,6 +178,7 @@ video.addEventListener('ended',() => {
   const canvas = $('#last-frame'); canvas.width = video.videoWidth; canvas.height = video.videoHeight;
   try { canvas.getContext('2d').drawImage(video,0,0); canvas.classList.add('visible'); } catch { /* file:// 的影片仍可直接保留最後一幀 */ }
   video.pause();
+  window.forestMusic?.afterVideo();
   // 不再 seek：部分不支援 Range 的靜態伺服器會在 seek 時重置到 0。
   // canvas 保留真正的最後影格，video 自然停在 duration，比回退 0.05 秒更穩定。
   // 保持同一頁、同一個畫框，不出現結尾 UI。
